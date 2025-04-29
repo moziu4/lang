@@ -1,0 +1,11 @@
+{
+  "hello":    "hola",
+  "bye":      "adios",
+  "logout":    "Cerrar sesión",
+  "login":     "Iniciar sessión",
+  "log-enter":  "Entrar",
+  "user":       "Usuario",
+  "password":   "Contraseña",
+  "not-login":  "No has iniciado sessión"
+
+}

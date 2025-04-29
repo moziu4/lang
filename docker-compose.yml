@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: lang_mongodb
+    volumes:
+      - mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dev
+      - MONGO_INITDB_ROOT_PASSWORD=dev_pass
+    ports:
+      - "47019:27017"
+  redis:
+    image: redis:7
+    container_name: lang_redis
+    ports:
+      - "6379:6379"
+
+  app:
+    build:
+      context: .
+    container_name: lang_app
+    volumes:
+      - ./translations:/app/translations # Vincula la carpeta local a la ruta en el contenedor.
+    environment:
+      - TRANSLATIONS_DIR=/app/translations # Define la variable de entorno para usarla en el código.
+    depends_on:
+      - mongo
+      - redis
+
+volumes:
+  mongo:
