@@ -5,7 +5,15 @@
   "login":     "Iniciar sessión",
   "log-enter":  "Entrar",
   "user":       "Usuario",
+  "username":    "Nombre usuario",
   "password":   "Contraseña",
-  "not-login":  "No has iniciado sessión"
-
+  "not-login":  "No has iniciado sessión",
+  "admin":      "Admin",
+  "admin_panel": "Panel de administración",
+  "content":    "Contenido",
+  "all_contents": "Todos los contenidos",
+  "new_content": "Nuevo contenido",
+  "shop": "Tienda",
+  "product_manager": "Gestor de productos",
+  "back_to_website": "Volver a la web"
 }

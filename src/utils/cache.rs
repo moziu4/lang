@@ -4,7 +4,6 @@ use redis::{
 };
 use serde_json;
 use std::sync::Arc;
-use crate::core::domain::statics::statics_type::StaticTranslate;
 use crate::utils::cache_error::CacheError;
 
 // Estructura para manejar Redis
@@ -47,12 +46,12 @@ impl RedisCache {
         let serialized = serde_json::to_string(&products)?;
 
         // Almacena los datos en Redis con el TTL especificado
-        con.set_ex(cache_key, serialized, ttl as u64).await?;
+        con.set_ex::<_, _, ()>(cache_key, serialized, ttl as u64).await?;
         Ok(())
     }
 
     pub async fn invalidate_cache(&self, cache_key: &str) -> Result<(), RedisError> {
-        let mut con = self.client.get_async_connection().await?;
+        let mut con = self.client.get_multiplexed_async_connection().await?;
         let _: () = con.del(cache_key).await?; // Eliminamos la clave específica
         Ok(())
     }

@@ -27,7 +27,7 @@ impl ProductRepo for ProductRepositoryImpl {
     
     async fn create_product(&self, id_product: i64, language: ProductTranslation)-> ProductResult<()> {
         let collection = self.get_collection("products".to_string());
-        let mut product_doc = doc! {
+        let product_doc = doc! {
             "id_product": id_product,
             "title": language.title,
             "description": language.description,

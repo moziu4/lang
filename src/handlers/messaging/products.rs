@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use async_nats::jetstream::consumer::pull;
-use futures::{StreamExt, TryStreamExt};
+use futures::StreamExt;
 use crate::context::Context;
 use crate::core::domain::dynamics::ProductMessageCreate;
 use crate::core::domain::dynamics::products_repo::ProductRepo;
@@ -42,7 +42,7 @@ where
     // Procesar cada mensaje del consumidor
     while let Some(message) = consumer_messages.next().await {
         match message {
-            Ok(mut msg) => {
+            Ok(msg) => {
                 println!("Mensaje recibido: {:?}", msg);
 
                 // Intentar deserializar el mensaje recibido

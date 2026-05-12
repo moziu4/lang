@@ -23,13 +23,17 @@ impl<P: StaticRepo> StaticService<P> where P: StaticRepo
             return Ok(products);
         }
         let products = self.static_repo
-            .get_translation(lang, group.clone())
+            .get_translation(lang.clone(), group.clone())
             .await
             .map_err(|product_err| {
                 ProductError {
                     message: format!("Error processing request: {:?}", product_err),
                 }
             })?;
+
+        // Guardar en caché si se obtuvo del repo
+        let _ = self.redis_cache.set_products(&cache_key, products.clone(), 3600).await;
+
         Ok(products)
 
     }

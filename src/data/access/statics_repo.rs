@@ -1,5 +1,4 @@
 use crate::core::domain::statics::statics_repo::StaticRepo;
-use crate::core::domain::statics::statics_type::StaticTranslate;
 use async_trait::async_trait;
 use mongodb::{ Client};
 use std::collections::HashMap;
@@ -18,12 +17,12 @@ impl reject::Reject for ProductError {}
 
 #[derive(Clone, Debug)]
 pub struct StaticRepositoryImpl {
-    client: Arc<Client>,
+    _client: Arc<Client>,
 }
 
 impl StaticRepositoryImpl {
     pub fn new(client: Arc<Client>) -> Self {
-        StaticRepositoryImpl { client, }
+        StaticRepositoryImpl { _client: client, }
     }
 }
 

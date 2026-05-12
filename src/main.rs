@@ -7,7 +7,7 @@ use actix_web::{
     App,
     HttpServer,
 };
-use lang::{context::Context, db::connect_to_db, handlers::http};
+use lang::{context::Context, db::connect_to_db, handlers::http, utils::catalog_importer};
 use env_logger::Env;
 use tokio::spawn;
 use lang::utils::cache::RedisCache;
@@ -20,6 +20,12 @@ use lang::handlers::messaging;
 async fn main() -> io::Result<()> {
     env_logger::init_from_env(Env::default().default_filter_or("debug"));
     let client = connect_to_db().await;
+    
+    // Importar catálogos al inicio
+    if let Err(e) = catalog_importer::import_catalogs(&client).await {
+        eprintln!("Error al importar catálogos: {:?}", e);
+    }
+
     let product_repo = ProductRepositoryImpl::new(Arc::new(client.clone()));
 
     let redis_cache = RedisCache::new(&*env::var("REDIS_URI").unwrap())
@@ -50,6 +56,8 @@ async fn main() -> io::Result<()> {
             )
             .app_data(web::Data::new(http_context.clone())) // Se move `http_context` aquí
             .configure(http::statics::statics_routes::config)
+            .configure(http::statics::languages_routes::config)
+            .configure(http::catalogs::catalogs_routes::config)
     })
         .bind(env::var("HTTP_BIND").unwrap().to_string())?
         .run();

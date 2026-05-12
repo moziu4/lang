@@ -1,5 +1,4 @@
 use std::sync::Arc;
-use async_nats::Client;
 use crate::context::Context;
 use crate::core::domain::dynamics::products_repo::ProductRepo;
 use crate::core::operation::products_ops::ProductService;
